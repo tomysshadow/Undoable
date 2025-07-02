@@ -196,7 +196,7 @@ undoableCmd is the place where the undo events are coded and interpreted.
 undoings = [] # list of undoable things - each is a 2 part list 
         # first the arguments to undo the operation;
         # then the arguments to redo the operation.
-redoings  = [] # list of redoable things - copy of those undoings which have been undone.
+redoings = [] # list of redoable things - copy of those undoings which have been undone.
 
 
 def showundos(): # display list of undo operations.
@@ -339,12 +339,11 @@ class Undoable:
   def undooptions(self, *args): # save undooptions sufficient to undo and redo an action
     if not self.cget("undoing"):
       # store state before and after event change.
-      global redoings
       #for un in undoings: print(f"Undo:: {un}")
       
       # not in an undo so save event.
       undoings.append(self._data(args))
-      redoings = []
+      redoings.clear()
     else:
       #print(f"In undo dont save event {args}")
       pass
