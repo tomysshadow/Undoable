@@ -288,8 +288,7 @@ class Undoable:
     # assemble complete Entry validation command - saves history of behaviours
     self.undooptions(P)
     
-    try:
-      vcmd_cbname = self.props["vcmd"][0]
+    try: vcmd_cbname = self.props["vcmd"][0]
     except TypeError: return True
     
     return self.tk.call(vcmd_cbname, *args) if vcmd_cbname else True
@@ -332,8 +331,7 @@ class Undoable:
   def cget(self, key):
     if key == "validatecommand": key = "vcmd"
     
-    try:
-      return self.props[key]
+    try: return self.props[key]
     except ValueError: return super().cget(key)
   
   def undooptions(self, *args): # save undooptions sufficient to undo and redo an action
