@@ -331,7 +331,7 @@ class Undoable(ABC):
     if key == "validatecommand": key = "vcmd"
     
     try: return self.props[key]
-    except ValueError: return super().cget(key)
+    except KeyError: return super().cget(key)
   
   def undooptions(self, *args): # save undooptions sufficient to undo and redo an action
     if not self.cget("undoing"):
