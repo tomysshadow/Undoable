@@ -512,4 +512,4 @@ class UndoableSpinbox(Undoable, tk.Spinbox):
     self.tk.call(str(self), "set", args[1])
 
 if __name__ == "__main__":
-  test_undo()
+  test_undo() # call the test routine
