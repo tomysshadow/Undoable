@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from abc import ABC
 import sys
 
 
@@ -236,7 +237,7 @@ def redolast():
 
 # an undoable is a widget
 # and allows new smooth shaped buttons.
-class Undoable:
+class Undoable(ABC):
   # define the option list and default values
   # undoing is true if we are in an undo operation (does not get put on the undoable list)
   # undocommand may be supplied for items such as buttons which may invoke complex operations
@@ -251,8 +252,6 @@ class Undoable:
       "oldvalue": oldvalue,
       "vcmd": validatecommand if validatecommand else vcmd
     }
-    
-    self.tk = None
     
     # make the base widget
     super().__init__(master, **kw)
@@ -410,7 +409,7 @@ class UndoableMenu(Undoable, tk.Menu):
     kw["command"] = undocmd
     return super().add(itemType, **kw)
 
-class UndoableButtonBase:
+class UndoableButtonBase(ABC):
   def _data(self, args):
     undodata = (self, args)
     return (undodata, undodata)
@@ -458,10 +457,7 @@ class UndoableListbox(Undoable, tk.Listbox):
     self.bind("<ButtonPress-1>", lambda e: self.select(e.y))
   
   def _data(self, args):
-    try: arg = args[0]
-    except KeyError: arg = None
-    
-    return ((self, self.curselection()), (self, arg))
+    return ((self, self.curselection()), (self, args[0]))
   
   def _revert(self, args):
     self.selection_clear(0, tk.END)
