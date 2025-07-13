@@ -253,6 +253,8 @@ class Undoable(ABC):
       "vcmd": validatecommand if validatecommand else vcmd
     }
     
+    self._registered_commands = {}
+    
     # make the base widget
     super().__init__(master, **kw)
     
@@ -263,7 +265,12 @@ class Undoable(ABC):
     except tk.TclError: pass
   
   def _register_command(self, command):
-    return self.register(command) if callable(command) else command
+    registered_commands = self._registered_commands
+    if command in registered_commands: return registered_commands[command]
+    
+    command_cbname = self.register(command) if callable(command) else command
+    registered_commands[command] = command_cbname
+    return command_cbname
   
   def _register_vcmd(self):
     result = (self.register(self._undovcmd), "%P")
@@ -500,7 +507,7 @@ class UndoableText(Undoable, tk.Text):
 
 class UndoableSpinbox(Undoable, tk.Spinbox):
   def _data(self, args):
-    return ((self, self.get()), (self, args))
+    return ((self, self.get()), (self, args[0]))
   
   def _revert(self, args):
     self.tk.call(str(self), "set", args[1])
