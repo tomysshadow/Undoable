@@ -332,7 +332,7 @@ class Undoable(ABC):
       
       cnf[option] = value
       
-    return super().configure(cnf)
+    return super().configure(**cnf)
   
   def cget(self, key):
     if key == "validatecommand": key = "vcmd"
