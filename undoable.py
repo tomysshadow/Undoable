@@ -399,8 +399,9 @@ class UndoableMenu(Undoable, tk.Menu):
       command = kw["command"]
     except KeyError: return super().add(itemType, **kw)
     
+    command_cbname = self._register_command(command)
+    
     def undocmd():
-      command_cbname = self._register_command(command)
       if not command_cbname: return None
       
       self.undooptions(pog)
