@@ -179,22 +179,22 @@ Each undo event has two parts (it is a list) - the record of old values needing 
 and the redo event (a copy of the original event).
 
 The class undoable is a [polymorphism%|%polymorphic] or Template class which records the actions
-of any Tk widget and can 'undo' these actions. 
+of any Tk widget and can 'undo' these actions.
 
-Records events in all undoable widgets as a list, then you can undo the list 
+Records events in all undoable widgets as a list, then you can undo the list
 (and possibly redo). All Tk widgets (except canvas?) can be used as undoables.
 "Polymorphism" means that the undoable widget can inherit from any of the Tk widgets.
 It should also be able to represent an Iwidget or BWidget.
 
-Usually 'entry' 'menu' and 'scale' widgets won't need an undocommand as they call the 
+Usually 'entry' 'menu' and 'scale' widgets won't need an undocommand as they call the
 return the value of the widget to its previous value, which calls the standard        
 'item changed command' for the widget (which should cause all changes to be reset
-as if the menu/entry/scale had been set manually). 
+as if the menu/entry/scale had been set manually).
 
 undoableCmd is the place where the undo events are coded and interpreted.
 """
 
-undoings = [] # list of undoable things - each is a 2 part list 
+undoings = [] # list of undoable things - each is a 2 part list
         # first the arguments to undo the operation;
         # then the arguments to redo the operation.
 redoings = [] # list of redoable things - copy of those undoings which have been undone.
@@ -241,7 +241,7 @@ class Undoable(ABC):
   # define the option list and default values
   # undoing is true if we are in an undo operation (does not get put on the undoable list)
   # undocommand may be supplied for items such as buttons which may invoke complex operations
-  #  and hence require a complex undo operation. 
+  #  and hence require a complex undo operation.
   def __init__(self, master=None, undoing=False, undocommand=None, command=None,
     validatecommand=None, vcmd=None, oldvalue=0, **kw):
     # a dictionary of options specific to the undoable class
